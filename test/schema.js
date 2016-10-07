@@ -23,18 +23,6 @@ describe('Schema', function() {
       });
     });
 
-    it('should not resolve if field type is invalid', function() {
-      return vschema.checkSchemaField({
-        name: 'myfield',
-        type: 'unknown-type'
-      })
-      .then(function(f){
-        console.log(f);
-        throw new Error('Should not resolve');
-      }, successCallback);
-    });
-
-
   });
 
   describe('#checkSchema()', function() {
@@ -134,6 +122,10 @@ describe('Schema', function() {
           two: 'Two',
           three: 'Three'
         }
+      },
+      {
+        type: 'textarea',
+        valid: '12345'
       },
     ];
 

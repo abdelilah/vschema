@@ -110,7 +110,7 @@ var checkSchemaField = function(field){
   return new Promise(function(resolve, reject){
     var f = _.assign({}, field);
 
-    if(!f.type){
+    if(!f.type || !SCHEMA_TYPES[f.type]){
       f.type = 'any';
     }
 
@@ -119,16 +119,9 @@ var checkSchemaField = function(field){
       return reject('Missing name property');
     }
 
-    // Check type
-    if(!SCHEMA_TYPES[f.type]){
-      return reject('Unknown field type: ' + f.type);
-    }
-    else{
-      f = _.assign(f, SCHEMA_TYPES[f.type]);
-    }
+    f = _.assign(f, SCHEMA_TYPES[f.type]);
 
     // Add default validators and filters if available
-
     f.validators = _.concat(SCHEMA_TYPES[f.type].validators, field.validators || []);
     f.filters = _.concat(SCHEMA_TYPES[f.type].filters, field.filters || []);
 
