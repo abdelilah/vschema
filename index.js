@@ -1,11 +1,3 @@
-/*
-TODO:
-- Add min / max attributes
-- Add required attribute
-- API to add custom fields
-- Support custom error messages
-*/
-
 const v = require('validator');
 const _ = require('lodash');
 const async = require('async');

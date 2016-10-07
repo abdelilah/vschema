@@ -81,6 +81,20 @@ vschema.validateField({
 * uuid
 * schema
 
+## Built in filters
+
+* escape:  replace <, >, &, ', " and / with HTML entities
+* unescape: replaces HTML encoded entities with <, >, &, ', " and /
+* ltrim: trim characters from the left-side of the input
+* normalizeEmail: canonicalizes an email address
+* rtrim: trim characters from the right-side of the input
+* stripLow: remove characters with a numerical value < 32 and 127, mostly control characters
+* toBoolean: convert the input string to a boolean. Everything except for '0', 'false' and '' returns true
+* toDate: convert the input string to a date, or null if the input is not a date
+* toFloat: convert the input string to a float, or NaN if the input is not a float
+* toInt: convert the input string to an integer, or NaN if the input is not an integer
+* trim: trim characters (whitespace by default) from both sides of the input
+
 ## Custom validators
 
 In addition to built in validators, you can also use your own either synchronously or asynchronously:
