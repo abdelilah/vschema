@@ -21,6 +21,13 @@ var mySchema = {
     birthdate: {
       type: 'date',
     },
+    gender: {
+      type: 'radio',
+      options: {
+      	male: 'Male',
+      	female: 'Female'
+      }
+    },
     favoriteColors: [{ // An array of elements
       type: 'string',
       validators: [ // Custom validation
@@ -69,6 +76,9 @@ vschema.validateField({
 * number
 * integer
 * float
+* select
+* radio
+* checkbox
 * bool
 * date
 * color

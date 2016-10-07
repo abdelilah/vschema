@@ -103,6 +103,38 @@ describe('Schema', function() {
         invalid: 'abcd',
         expectedType: 'object'
       },
+      {
+        type: 'radio',
+        valid: 'one',
+        invalid: 'four',
+        expectedType: 'string',
+        options: {
+          one: 'One',
+          two: 'Two',
+          three: 'Three'
+        }
+      },
+      {
+        type: 'select',
+        valid: 'one',
+        invalid: 'four',
+        expectedType: 'string',
+        options: {
+          one: 'One',
+          two: 'Two',
+          three: 'Three'
+        }
+      },
+      {
+        type: 'checkbox',
+        valid: ['one', 'two'],
+        invalid: ['four'],
+        options: {
+          one: 'One',
+          two: 'Two',
+          three: 'Three'
+        }
+      },
     ];
 
     var testValidator = function(validator){
@@ -111,7 +143,8 @@ describe('Schema', function() {
 
           return vschema.validateField({
             name: 'myfield',
-            type: validator.type
+            type: validator.type,
+            options: validator.options
           }, validator.valid)
           .then(function(value){
             if(validator.expectedType !== undefined && typeof value !== validator.expectedType){
@@ -128,7 +161,8 @@ describe('Schema', function() {
 
           return vschema.validateField({
             name: 'myfield',
-            type: validator.type
+            type: validator.type,
+            options: validator.options
           }, validator.invalid)
           .then(errorCallback, successCallback);
 
@@ -212,6 +246,29 @@ describe('Schema', function() {
     });
 
 
+
+    it('should check return default error message', function() {
+      return vschema.validateField({
+        name: 'myfield',
+        type: 'email'
+      }, 'ivalid')
+      .then(errorCallback, function(err){
+        assert(err === 'Invalid email address', true);
+      });
+    });
+
+
+    it('should check return default error message for required fields', function() {
+      return vschema.validateField({
+        name: 'myfield',
+        required: true
+      }, '')
+      .then(errorCallback, function(err){
+        assert(err === 'This field is required', true);
+      });
+    });
+
+
     it('should use custom error messages', function() {
       return vschema.validateField({
         name: 'myfield',
@@ -219,7 +276,6 @@ describe('Schema', function() {
         errorMessage: 'My Custom Error'
       }, '')
       .then(errorCallback, function(err){
-        console.log(err);
         assert(err === 'My Custom Error', true);
       });
     });

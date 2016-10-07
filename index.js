@@ -19,47 +19,84 @@ var SCHEMA_TYPES = {
   },
   'integer': {
     filters: [ 'toInt' ],
-    validators: [ 'isInt' ]
+    validators: [ 'isInt' ],
+    errorMessage: 'Invalid value'
   },
   'float': {
     filters: [ 'toFloat' ],
-    validators: [ 'isFloat' ]
+    validators: [ 'isFloat' ],
+    errorMessage: 'Invalid value'
   },
   'bool': {
     filters: [ 'toBoolean' ],
-    validators: [ 'isBoolean' ]
+    validators: [ 'isBoolean' ],
+    errorMessage: 'Invalid value'
   },
   'date': {
     filters: [ 'toDate' ],
-    validators: [ 'isDate' ]
+    validators: [ 'isDate' ],
+    errorMessage: 'Invalid value'
   },
   'email': {
     filters: [ 'normalizeEmail' ],
-    validators: [ 'isEmail' ]
+    validators: [ 'isEmail' ],
+    errorMessage: 'Invalid email address'
   },
   'alpha': {
     filters: [],
-    validators: [ 'isAlpha' ]
+    validators: [ 'isAlpha' ],
+    errorMessage: 'Invalid value'
   },
   'alnum': {
     filters: [],
-    validators: [ 'isAlphanumeric' ]
+    validators: [ 'isAlphanumeric' ],
+    errorMessage: 'Invalid value'
   },
   'decimal': {
     filters: [],
-    validators: [ 'isDecimal' ]
+    validators: [ 'isDecimal' ],
+    errorMessage: 'Invalid value'
   },
   'mongoid': {
     filters: [],
-    validators: [ 'isMongoId' ]
+    validators: [ 'isMongoId' ],
+    errorMessage: 'Invalid value'
   },
   'url': {
     filters: [],
-    validators: [ 'isURL' ]
+    validators: [ 'isURL' ],
+    errorMessage: 'Invalid URL'
   },
   'uuid': {
     filters: [],
-    validators: [ 'isUUID' ]
+    validators: [ 'isUUID' ],
+    errorMessage: 'Invalid value'
+  },
+  'radio': {
+    filters: [],
+    validators: [function(val, field){
+      return field.options.hasOwnProperty(val)
+    }],
+    errorMessage: 'Invalid value'
+  },
+  'select': {
+    filters: [],
+    validators: [function(val, field){
+      return field.options.hasOwnProperty(val)
+    }],
+    errorMessage: 'Invalid value'
+  },
+  'checkbox': {
+    filters: [],
+    validators: [function(val, field){
+      for(var i=0; i < val.length; i++){
+        if(!field.options.hasOwnProperty(val)){
+          return false
+        }
+      }
+      return true
+    }],
+    errorMessage: 'Invalid value'
   },
   'schema': {
     filters: [],
@@ -134,17 +171,18 @@ var validateField = function(field, value){
           }
 
           todo.push(function(cb){
-            var result = typeof validator === 'function' ? validator(val) : v[validator](val);
+            var result = typeof validator === 'function' ? validator(val, field) : v[validator](val);
+            var errorMessage = fieldSchema.errorMessage || field.errorMessage;
 
-            if(typeof result.then === 'function'){ // Promise returned
+            if(result.hasOwnProperty('then') && typeof result.then === 'function'){ // Promise returned
               result.then(function(result){
                 cb(null, val);
               }, function(err){
-                cb(fieldSchema.errorMessage || err, val);
+                cb(errorMessage || err, val);
               });
             }
             else{
-              cb(result === true ? null : (fieldSchema.errorMessage || result || val), val);
+              cb(result === true ? null : (errorMessage || result || val), val);
             }
           });
         });
