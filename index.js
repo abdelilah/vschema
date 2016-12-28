@@ -208,6 +208,7 @@ var validate = function(schema, data){
   return new Promise(function(resolve, reject){
     var todo = [];
     var fnames = [];
+    var errors = {};
 
     _.forEach(schema, function(field, fname){
 
@@ -223,14 +224,16 @@ var validate = function(schema, data){
         .then(function(value){
           cb(null, value);
         }, function(err){
-          cb(err);
+          errors[field.name] = err
+          cb(null, value);
         })
       });
     });
 
     async.parallel(todo, function(err, results){
-      if(err !== null){
-        reject(err);
+      // console.log(errors);
+      if(Object.keys(errors).length > 0){
+        reject(errors)
       }
       else{
         var final = {};

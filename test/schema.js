@@ -315,6 +315,38 @@ describe('Schema', function() {
         assert(true, true);
       });
     });
+
+
+    it('should fail with erronous fields', function() {
+      return vschema.validate({
+        firstname: {
+          required: true
+        },
+        lastname: {
+          required: true
+        },
+        age: {
+          required: false
+        }
+      }, {
+
+      })
+      .then(
+        function(results){
+          // console.log(results);
+          throw new Error('It should have failed')
+        },
+        function(errors){
+          if(errors.firstname && errors.lastname && !errors.age){
+            assert(true, true);
+          }
+          else{
+            // console.log(errors);
+            throw new Error('Missing keys from errors object')
+          }
+        }
+      )
+    })
   });
 
 });
