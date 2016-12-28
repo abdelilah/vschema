@@ -327,9 +327,13 @@ describe('Schema', function() {
         },
         age: {
           required: false
+        },
+        phone: {
+          type: 'number',
+          errorMessage: 'Invalid number'
         }
       }, {
-
+        phone: 'hello'
       })
       .then(
         function(results){
@@ -337,11 +341,12 @@ describe('Schema', function() {
           throw new Error('It should have failed')
         },
         function(errors){
-          if(errors.firstname && errors.lastname && !errors.age){
+          // console.log(errors);
+
+          if(errors.firstname && errors.lastname && errors.phone && !errors.age){
             assert(true, true);
           }
           else{
-            // console.log(errors);
             throw new Error('Missing keys from errors object')
           }
         }

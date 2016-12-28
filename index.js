@@ -215,6 +215,9 @@ var validate = function(schema, data){
       field['name'] = field.name || fname;
       const value = data[field.name] || null;
 
+      if(field.required !== true && value === null){
+        return
+      }
       // console.log(field.name + ' = ' + value);
 
       fnames.push(fname);
