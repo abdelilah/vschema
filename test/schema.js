@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Promise = require('promise');
+// var Promise = require('promise');
 // var should = require('chai').should();
 
 var errorCallback = function(err){
@@ -195,7 +195,7 @@ describe('Schema', function() {
             return new Promise(function(resolve, reject){
               setTimeout(function(){
                 reject('Invalid');
-              }, 200);
+              }, 500);
             });
           }
         ]

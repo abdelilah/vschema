@@ -167,7 +167,7 @@ var validateField = function(field, value){
             var result = typeof validator === 'function' ? validator(val, field) : v[validator](val);
             var errorMessage = fieldSchema.errorMessage || field.errorMessage;
 
-            if(result.hasOwnProperty('then') && typeof result.then === 'function'){ // Promise returned
+            if(typeof result === 'object' && typeof result.then === 'function'){ // Promise returned
               result.then(function(result){
                 cb(null, val);
               }, function(err){

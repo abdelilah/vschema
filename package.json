@@ -1,6 +1,6 @@
 {
   "name": "vschema",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A JSON schema validation library",
   "main": "index.js",
   "directories": {
@@ -26,7 +26,6 @@
   "dependencies": {
     "async": "^2.0.1",
     "lodash": "^4.16.3",
-    "promise": "^7.1.1",
     "validator": "^6.0.0"
   }
 }
