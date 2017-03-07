@@ -175,7 +175,7 @@ var validateField = function(field, value){
               });
             }
             else{
-              cb(result === true ? null : (errorMessage || result || val), val);
+              cb(result === true ? null : (result || errorMessage || val), val);
             }
           });
         });
