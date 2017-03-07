@@ -171,7 +171,7 @@ var validateField = function(field, value){
               result.then(function(result){
                 cb(null, val);
               }, function(err){
-                cb(errorMessage || err, val);
+                cb(err || errorMessage, val);
               });
             }
             else{
