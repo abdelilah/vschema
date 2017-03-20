@@ -136,6 +136,11 @@ var validateField = function(field, value){
     value = field.default;
   }
 
+  // Fix for "isBoolean" that accept only strings and fails whe given true | false values
+  if(field.type === 'bool'){
+    value = value + ''
+  }
+
   var fieldSchema = field;
 
   if(_.isArray(fieldSchema)){
@@ -214,11 +219,6 @@ var validate = function(schema, data){
 
       field['name'] = field.name || fname;
       let value = data[field.name] || null;
-
-      // Fix for "isBoolean" that accept only strings and fails whe given true | false values
-      if(field.type === 'bool'){
-        value = value + ''
-      }
 
       if(field.required !== true && value === null){
         return

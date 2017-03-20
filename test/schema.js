@@ -86,6 +86,18 @@ describe('Schema', function() {
         expectedType: 'boolean'
       },
       {
+        type: 'bool',
+        valid: true,
+        invalid: 'abcd',
+        expectedType: 'boolean'
+      },
+      {
+        type: 'bool',
+        valid: false,
+        invalid: 'abcd',
+        expectedType: 'boolean'
+      },
+      {
         type: 'date',
         valid: '2016-01-01',
         invalid: 'abcd',
