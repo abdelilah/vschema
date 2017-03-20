@@ -213,7 +213,12 @@ var validate = function(schema, data){
     _.forEach(schema, function(field, fname){
 
       field['name'] = field.name || fname;
-      const value = data[field.name] || null;
+      let value = data[field.name] || null;
+
+      // Fix for "isBoolean" that accept only strings and fails whe given true | false values
+      if(field.type === 'bool'){
+        value = value + ''
+      }
 
       if(field.required !== true && value === null){
         return

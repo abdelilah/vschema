@@ -1,6 +1,6 @@
 {
   "name": "vschema",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A JSON schema validation library",
   "main": "index.js",
   "directories": {
