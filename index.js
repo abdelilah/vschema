@@ -38,7 +38,7 @@ var SCHEMA_TYPES = {
     errorMessage: 'Invalid value'
   },
   'email': {
-    filters: [ val => val.toLowerCase() ],
+    filters: [ function(val){ return val.toLowerCase() } ],
     validators: [ 'isEmail' ],
     errorMessage: 'Invalid email address'
   },
