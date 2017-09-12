@@ -218,7 +218,7 @@ var validate = function(schema, data){
     _.forEach(schema, function(field, fname){
 
       field['name'] = field.name || fname;
-      let value = data[field.name] || null;
+      var value = data[field.name] || null;
 
       if(field.required !== true && value === null){
         return
