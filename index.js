@@ -169,7 +169,7 @@ var validateField = function(field, value){
           }
 
           todo.push(function(cb){
-            var result = typeof validator === 'function' ? validator(val, field) : v[validator](val);
+            var result = typeof validator === 'function' ? validator(val, field) : v[validator](val + '');
             var errorMessage = fieldSchema.errorMessage || field.errorMessage;
 
             if(typeof result === 'object' && typeof result.then === 'function'){ // Promise returned
