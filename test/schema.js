@@ -329,6 +329,50 @@ describe('Schema', function() {
     });
 
 
+
+
+    it('should validate selected fields', function() {
+      return vschema.validate({
+        name: {
+          type: 'alpha',
+          required: true
+        },
+        email: {
+          type: 'email',
+          required: true
+        },
+        phone: {
+          type: 'number',
+        },
+        birthdate: {
+          type: 'date',
+        },
+        favoriteColors: [{
+          type: 'string',
+          validators: [
+            function(val){ // Hex Color
+              return val.startsWith('#') && val.length === 7;
+            }
+          ],
+          filters: [
+            function(val){
+              return val.toLowerCase();
+            }
+          ]
+        }]
+      }, {
+        birthdate: '1985-01-01',
+        favoriteColors: ['#AAAAAA', '#bbbbbb', '#cccccc']
+      }, ['birthdate', 'favoriteColors'])
+      .then(function(results){
+        // console.log(results);
+        assert(true, true);
+      });
+    });
+
+
+
+
     it('should fail with erronous fields', function() {
       return vschema.validate({
         firstname: {
@@ -365,5 +409,29 @@ describe('Schema', function() {
       )
     })
   });
+
+
+  describe('Defaults', function(){
+
+    it('Should use default value', function(){
+      vschema.validate({
+        age: {
+          required: false
+        },
+        gender: {
+          default: 'male'
+        },
+        phone: {
+          type: 'number',
+          errorMessage: 'Invalid number'
+        }
+      }, {})
+      .then(function(result){
+        if(result.gender !== 'male'){
+          throw new Error('Missing or invalid default value')
+        }
+      })
+    })
+  })
 
 });

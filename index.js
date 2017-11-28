@@ -1,7 +1,7 @@
 const v = require('validator');
 const _ = require('lodash');
 const async = require('async');
-const Promise = require('promise');
+// const Promise = require('promise');
 
 var SCHEMA_TYPES = {
   'any': {filters: [], validators: []},
@@ -131,9 +131,10 @@ var checkSchemaField = function(field){
 
 
 var validateField = function(field, value){
+
   // Use default if value is empty
   if((value === null || value === '' || value === undefined) && field.default){
-    value = field.default;
+    value = field.default
   }
 
   // Fix for "isBoolean" that accept only strings and fails whe given true | false values
@@ -209,16 +210,22 @@ var validateField = function(field, value){
 }
 
 
-var validate = function(schema, data){
+var validate = function(schema, data, fields = null){
   return new Promise(function(resolve, reject){
     var todo = [];
     var fnames = [];
     var errors = {};
 
+    var vFields = fields || _.keys(schema)
+
     _.forEach(schema, function(field, fname){
 
+      if(vFields.indexOf(fname) < 0){
+        return
+      }
+
       field['name'] = field.name || fname;
-      var value = data[field.name] || null;
+      var value = data[field.name] || field.default || null;
 
       if(field.required !== true && value === null){
         return
