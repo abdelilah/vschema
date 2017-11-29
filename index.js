@@ -210,7 +210,7 @@ var validateField = function(field, value){
 }
 
 
-var validate = function(schema, data, fields = null){
+var validate = function(schema, data, fields){
   return new Promise(function(resolve, reject){
     var todo = [];
     var fnames = [];
